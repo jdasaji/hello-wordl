@@ -26,10 +26,10 @@ jobs:
 
       - name: Verify secrets before login (safe)
         run: |
-          echo "Client ID: ${AZURE_CLIENT_ID}..."  # Muestra solo los primeros 8 caracteres
-          echo "Tenant ID: ${AZURE_TENANT_ID}..."  # Muestra solo los primeros 8 caracteres
-          echo "Tenant ID: ${AZURE_CLIENT_SECRET}..."  # Muestra solo los primeros 8 caracteres          
-          echo "Tenant ID: ${AZURE_SUBSCRIPTION_ID}..."  # Muestra solo los primeros 8 caracteres
+          echo "Client ID (first 5 chars): ${AZURE_CLIENT_ID:0:5}"
+          echo "Tenant ID (first 5 chars): ${AZURE_TENANT_ID:0:5}"
+          echo "Client Secret (first 5 chars): ${AZURE_CLIENT_SECRET:0:5}"
+          echo "Subscription ID (first 5 chars): ${AZURE_SUBSCRIPTION_ID:0:5}"
         env:
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}          
