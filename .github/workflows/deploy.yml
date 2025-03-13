@@ -1,0 +1,35 @@
+name: CI/CD Azure Deployment
+
+on:
+  push:
+    branches:
+      - main  # Solo se ejecutará cuando hagas push a main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Clonar el código
+        uses: actions/checkout@v3
+
+      - name: 🔑 Autenticarse en Azure (Sin Secretos)
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.ARM_CLIENT_ID }}
+          tenant-id: ${{ secrets.ARM_TENANT_ID }}
+          subscription-id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+
+      - name: 🚀 Desplegar en Azure App Service
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: webapp-14110
+          package: .
+
+      - name: 📩 Publicar en Azure Service Bus (Ejemplo)
+        run: |
+          az servicebus queue send --name "mi-queue" --namespace "mi-servicebus" --message "Despliegue exitoso"
