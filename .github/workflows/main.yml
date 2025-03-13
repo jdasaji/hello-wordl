@@ -5,6 +5,9 @@ on:
     branches:
       - main  # O la rama en la que quieres que se despliegue automáticamente
 
+permissions:
+  id-token: write  # Esto es necesario para la autenticación de Azure
+  contents: read
 jobs:
   deploy:
     runs-on: ubuntu-latest
