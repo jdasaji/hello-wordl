@@ -1,0 +1,47 @@
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build application
+        run: npm run build
+
+      - name: Verify secrets before login (safe)
+        run: |
+          echo "Client ID: ${AZURE_CLIENT_ID}..."  # Muestra solo los primeros 8 caracteres
+          echo "Tenant ID: ${AZURE_TENANT_ID}..."  # Muestra solo los primeros 8 caracteres
+          echo "Tenant ID: ${AZURE_CLIENT_SECRET}..."  # Muestra solo los primeros 8 caracteres          
+          echo "Tenant ID: ${AZURE_SUBSCRIPTION_ID}..."  # Muestra solo los primeros 8 caracteres
+        env:
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}          
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}            
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Log in to Azure
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Deploy to Azure Web App
+        run: |
+          az webapp deploy --resource-group myResourceGroup-97162 --name webapp-97162 --src-path ./
+        env:
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
