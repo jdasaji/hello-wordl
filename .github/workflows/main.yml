@@ -1,3 +1,11 @@
+
+name: Deploy to Azure App Service
+
+on:
+  push:
+    branches:
+      - main  # O la rama en la que quieres que se despliegue automáticamente
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
