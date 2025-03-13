@@ -22,7 +22,7 @@ jobs:
         run: npm install  # O el comando que uses para instalar dependencias, si no usas npm ajusta este paso
 
       - name: Build application
-        run: npm run build  # O el comando que uses para compilar/empacar tu aplicación, si no usas npm ajusta este paso
+        run: npm run start  # O el comando que uses para compilar/empacar tu aplicación, si no usas npm ajusta este paso
 
       - name: Verify secrets before login (safe)
         run: |
