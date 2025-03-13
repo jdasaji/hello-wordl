@@ -47,7 +47,7 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Deploy to Azure Web
+      - name: Deploy to Azure Web -
         run: |
           az webapp deploy --resource-group myResourceGroup-97162 --name webapp-97162 --src-path ./
         env:
