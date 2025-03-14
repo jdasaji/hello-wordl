@@ -59,7 +59,7 @@ jobs:
 
       - name: Deploy to Azure Web -
         run: |
-          az webapp deploy --resource-group myResourceGroup-97162 --name webapp-97162 --src-path --src-path app.zip --type zip
+          az webapp deploy --resource-group myResourceGroup-97162 --name webapp-97162 --src-path app.zip --type zip
         env:
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
