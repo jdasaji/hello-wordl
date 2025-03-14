@@ -39,6 +39,12 @@ jobs:
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}            
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+      # 2. Listar todos los archivos de la raíz
+      - name: List files in the repository root
+        run: |
+          echo "Listing files in the root directory:"
+          ls -la  # Esto listará todos los archivos de la raíz
+
       - name: Log in to Azure
         uses: azure/login@v1
         with:
@@ -47,9 +53,13 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+      - name: Package project into a zip file
+        run: |
+          zip -r app.zip ./*  
+
       - name: Deploy to Azure Web -
         run: |
-          az webapp deploy --resource-group myResourceGroup-97162 --name webapp-97162 --src-path server.js
+          az webapp deploy --resource-group myResourceGroup-97162 --name webapp-97162 --src-path --src-path app.zip --type zip
         env:
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
